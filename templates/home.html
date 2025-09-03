@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FWI Prediction</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 0; background: #f6f7fb; }
+    .container { max-width: 960px; margin: 40px auto; background: #fff; padding: 24px; border-radius: 10px; box-shadow: 0 10px 20px rgba(0,0,0,0.08); }
+    h1 { margin-top: 0; }
+    .grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+    .field { display: flex; flex-direction: column; }
+    label { font-weight: 600; margin-bottom: 6px; }
+    input { padding: 10px 12px; border: 1px solid #e5e7eb; border-radius: 8px; }
+    .actions { margin-top: 20px; }
+    button { padding: 12px 18px; background: #2563eb; color: #fff; border: 0; border-radius: 8px; cursor: pointer; }
+    button:hover { background: #1d4ed8; }
+    .note { color: #6b7280; font-size: 14px; }
+    .result { margin-top: 20px; font-size: 18px; }
+    .error { margin-top: 20px; color: #b91c1c; }
+    .back { margin-top: 10px; display: inline-block; }
+    a { color: #2563eb; text-decoration: none; }
+  </style>
+  </head>
+<body>
+  <div class="container">
+    <h1>FWI Prediction</h1>
+    <p class="note">Enter feature values as used during training. All fields are required.</p>
+    <form method="post" action="/predictdata">
+      <div class="grid">
+        <div class="field">
+          <label for="Temperature">Temperature (°C)</label>
+          <input type="number" step="0.01" id="Temperature" name="Temperature" required />
+        </div>
+        <div class="field">
+          <label for="RH">RH (%)</label>
+          <input type="number" step="0.01" id="RH" name="RH" required />
+        </div>
+        <div class="field">
+          <label for="Ws">Wind speed (km/h)</label>
+          <input type="number" step="0.01" id="Ws" name="Ws" required />
+        </div>
+        <div class="field">
+          <label for="Rain">Rain (mm)</label>
+          <input type="number" step="0.01" id="Rain" name="Rain" required />
+        </div>
+        <div class="field">
+          <label for="FFMC">FFMC</label>
+          <input type="number" step="0.01" id="FFMC" name="FFMC" required />
+        </div>
+        <div class="field">
+          <label for="DMC">DMC</label>
+          <input type="number" step="0.01" id="DMC" name="DMC" required />
+        </div>
+        <div class="field">
+          <label for="DC">DC</label>
+          <input type="number" step="0.01" id="DC" name="DC" required />
+        </div>
+        <div class="field">
+          <label for="ISI">ISI</label>
+          <input type="number" step="0.01" id="ISI" name="ISI" required />
+        </div>
+        <div class="field">
+          <label for="BUI">BUI</label>
+          <input type="number" step="0.01" id="BUI" name="BUI" required />
+        </div>
+      </div>
+      <div class="actions">
+        <button type="submit">Predict FWI</button>
+      </div>
+    </form>
+
+    {% if prediction is defined %}
+      <div class="result">Predicted FWI: <strong>{{ prediction }}</strong></div>
+    {% endif %}
+
+    {% if error is defined %}
+      <div class="error">{{ error }}</div>
+    {% endif %}
+
+    <div class="back"><a href="/">Back to Home</a></div>
+  </div>
+</body>
+</html>
+
